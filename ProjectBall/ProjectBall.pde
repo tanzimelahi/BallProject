@@ -1,3 +1,4 @@
+import java.util.Random;
 interface Displayable {
   void display();
 }
@@ -6,7 +7,7 @@ interface Moveable {
 }
 abstract class Thing implements Displayable{
   float x, y;
-
+  
   Thing(float x, float y) {
     this.x = x;
     this.y = y;
@@ -16,24 +17,36 @@ abstract class Thing implements Displayable{
 }
 
 class Rock extends Thing implements Displayable{
+  PImage img;
   Rock(float x, float y) {
     super(x, y);
+     img = loadImage("Rock.jpg");
   }
 
   void display() { 
-      /* ONE PERSON WRITE THIS */
+      fill(33,31,33);
+    image(img,x,y,30,30);
   }
-  void move(){
-  }
+  
+  void move(){}
 }
 
 public class LivingRock extends Rock implements Moveable {
   LivingRock(float x, float y) {
     super(x,y);
+    
   }
-  void move() {
-    /* ONE PERSON WRITE THIS */
-  }
+   void move() {
+    Random rng = new Random();
+      int incx = rng.nextInt()%10;
+      int incy= rng.nextInt()%10;
+ if (x+incx>1000 || x+incx<0 || y+incy<0 || y+incy>800) {
+      x-=incx;
+    y-=incy;}
+  else{
+      x+=incx;
+      y+=incy;
+  }}
 }
 
 class Ball extends Thing implements Displayable, Moveable {
@@ -71,6 +84,7 @@ class Ball extends Thing implements Displayable, Moveable {
       y = r;
     }
   } 
+}
 }
 ArrayList<Displayable> thingsToDisplay;
 ArrayList<Moveable> thingsToMove;
