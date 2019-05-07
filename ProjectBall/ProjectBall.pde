@@ -1,3 +1,4 @@
+import java.util.Random;
 interface Displayable {
   void display();
 }
@@ -24,6 +25,8 @@ class Rock extends Thing implements Displayable{
       fill(33,31,33);
     rect(x,y,30,30);
   }
+  
+  void move(){}
 }
 
 public class LivingRock extends Rock implements Moveable {
@@ -59,6 +62,7 @@ class Ball extends Thing implements Displayable, Moveable {
   }
   void polygon(int x,int y,int n,int size){
     
+}
 }
 ArrayList<Displayable> thingsToDisplay;
 ArrayList<Moveable> thingsToMove;
