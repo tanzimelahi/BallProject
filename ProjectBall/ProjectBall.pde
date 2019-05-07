@@ -17,15 +17,19 @@ abstract class Thing implements Displayable{
 }
 
 class Rock extends Thing implements Displayable{
+  Random r;
   PImage img;
   Rock(float x, float y) {
     super(x, y);
-     img = loadImage("Rock.jpg");
+    r = new Random();
+    int imag = r.nextInt(2);
+    if (imag == 0) img = loadImage("Rock.jpg");
+    else img = loadImage("Rock3.jpg");
   }
 
   void display() { 
-      fill(33,31,33);
-    image(img,x,y,30,30);
+    fill(33,31,33);
+    image(img,x,y,50,50);
   }
   
   void move(){}
