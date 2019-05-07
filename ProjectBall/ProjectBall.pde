@@ -21,9 +21,8 @@ class Rock extends Thing implements Displayable{
   }
 
   void display() { 
-      /* ONE PERSON WRITE THIS */
-  }
-  void move(){
+      fill(33,31,33);
+    rect(x,y,30,30);
   }
 }
 
@@ -31,9 +30,17 @@ public class LivingRock extends Rock implements Moveable {
   LivingRock(float x, float y) {
     super(x,y);
   }
-  void move() {
-    /* ONE PERSON WRITE THIS */
-  }
+   void move() {
+    Random rng = new Random();
+      int incx = rng.nextInt()%10;
+      int incy= rng.nextInt()%10;
+ if (x+incx>1000 || x+incx<0 || y+incy<0 || y+incy>800) {
+      x-=incx;
+    y-=incy;}
+  else{
+      x+=incx;
+      y+=incy;
+  }}
 }
 
 class Ball extends Thing implements Displayable, Moveable {
