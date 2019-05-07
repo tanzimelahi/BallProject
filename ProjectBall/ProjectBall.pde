@@ -37,21 +37,40 @@ public class LivingRock extends Rock implements Moveable {
 }
 
 class Ball extends Thing implements Displayable, Moveable {
-  Ball(float x, float y) {
-
+  float r, vx, vy, acc, maxHeight;
+  Ball(float x, float y, float r, float v, float theta, float acc) {
     super(x, y);
+    this.r = r;
+    vx = v * cos(theta);
+    vy = v * sin(theta);
+    this.acc = acc;
+    maxHeight = height - y;
   }
 
   void display() {
     fill(random(255),random(255),random(255));
-    ellipse(x,y,50,50);
+    ellipse(x,y,2 * r,2 * r);
   }
 
   void move() {
-    /* ONE PERSON WRITE THIS */
-  }
-  void polygon(int x,int y,int n,int size){
-    
+    x += vx;
+    y += vy;
+    vy += acc;
+    if (x > width - r) {
+      vx *= -1;
+      x = width - r;
+    } else if (x < r) {
+      vx *= -1;
+      x = r;
+    }
+    if (y > height - r) {
+      maxHeight *= sqrt(acc);
+      vy = -sqrt(2 * acc * maxHeight);
+      y = height - r;
+    } else if (y < r) {
+      y = r;
+    }
+  } 
 }
 ArrayList<Displayable> thingsToDisplay;
 ArrayList<Moveable> thingsToMove;
@@ -62,7 +81,7 @@ void setup() {
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
   for (int i = 0; i < 10; i++) {
-    Ball b = new Ball(50+random(width-100),50+random(height)-100);
+    Ball b = new Ball(50+random(width-100),50+random(height)-100, 12.5, random(5, 8), random(-90,90), 0.99);
     thingsToDisplay.add(b);
     thingsToMove.add(b);
     Rock r = new Rock(50+random(width-100),50+random(height)-100);
