@@ -7,7 +7,7 @@ interface Moveable {
 }
 abstract class Thing implements Displayable{
   float x, y;
-
+  
   Thing(float x, float y) {
     this.x = x;
     this.y = y;
@@ -17,13 +17,15 @@ abstract class Thing implements Displayable{
 }
 
 class Rock extends Thing implements Displayable{
+  PImage img;
   Rock(float x, float y) {
     super(x, y);
+     img = loadImage("Rock.jpg");
   }
 
   void display() { 
       fill(33,31,33);
-    rect(x,y,30,30);
+    image(img,x,y,30,30);
   }
   
   void move(){}
@@ -32,6 +34,7 @@ class Rock extends Thing implements Displayable{
 public class LivingRock extends Rock implements Moveable {
   LivingRock(float x, float y) {
     super(x,y);
+    
   }
    void move() {
     Random rng = new Random();
