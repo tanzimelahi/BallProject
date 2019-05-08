@@ -22,12 +22,14 @@ abstract class Thing implements Displayable{
 class Rock extends Thing implements Displayable{
   Random r;
   PImage img;
+  int imag;
   Rock(float x, float y) {
     super(x, y);
     r = new Random();
-    int imag = r.nextInt(2);
-    if (imag == 0) img = loadImage("Rock.jpg");
-    else img = loadImage("Rock3.jpg");
+    imag = r.nextInt(2);
+    if (imag == 0) img = loadImage("Rock3.jpg");
+    else img = loadImage("Rock.jpg");
+   
   }
 
   void display() { 
@@ -43,6 +45,25 @@ public class LivingRock extends Rock implements Moveable {
     super(x,y);
     
   }
+  void display(){
+    super.display();
+    if (imag==0){
+    fill(255,255,255);
+    ellipse(x+20,y+18,10,6);
+    ellipse(x+40,y+18,10,6);
+    fill(0,0,0);
+    ellipse(x+20,y+18,3,3);
+    ellipse(x+40,y+18,3,3);
+  }
+  else 
+  fill(255,255,255);
+  ellipse(x+15,y+20,10,6);
+  ellipse(x+35,y+20,10,6);
+      fill(0,0,0);
+    ellipse(x+15,y+20,3,3);
+    ellipse(x+35,y+20,3,3);
+  }
+  
    void move() {
     Random rng = new Random();
       int incx = rng.nextInt()%10;
