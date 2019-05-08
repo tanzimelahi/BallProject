@@ -5,6 +5,9 @@ interface Displayable {
 interface Moveable {
   void move();
 }
+interface Collideable{
+  boolean isTouching(Thing other);
+}
 abstract class Thing implements Displayable{
   float x, y;
   
@@ -53,8 +56,9 @@ public class LivingRock extends Rock implements Moveable {
   }}
 }
 
-class Ball extends Thing implements Displayable, Moveable {
+class Ball extends Thing implements Displayable, Moveable,Collideable {
   float r, vx, vy, acc, maxHeight;
+  
   Ball(float x, float y, float r, float v, float theta, float acc) {
     super(x, y);
     this.r = r;
@@ -65,8 +69,17 @@ class Ball extends Thing implements Displayable, Moveable {
   }
 
   void display() {
-    fill(random(255),random(255),random(255));
-    ellipse(x,y,2 * r,2 * r);
+    fill(0+random(165));
+    ellipse(x,y,1.5*r,1.5* r);
+    
+  }
+  boolean isTouching(Thing other){
+    if (dist(x,y,other.x,other.y)<=1.5*r){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 
   void move() {
