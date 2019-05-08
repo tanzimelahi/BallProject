@@ -23,13 +23,15 @@ class Rock extends Thing implements Displayable{
   Random r;
   PImage img;
   int imag;
+  int dx, dy;
   Rock(float x, float y) {
     super(x, y);
     r = new Random();
     imag = r.nextInt(2);
     if (imag == 0) img = loadImage("Rock3.jpg");
     else img = loadImage("Rock.jpg");
-   
+    dx = r.nextInt(15) - 7;
+    dy = r.nextInt(15) - 7;
   }
 
   void display() { 
@@ -59,22 +61,30 @@ public class LivingRock extends Rock implements Moveable {
   fill(255,255,255);
   ellipse(x+15,y+20,10,6);
   ellipse(x+35,y+20,10,6);
-      fill(0,0,0);
-    ellipse(x+15,y+20,3,3);
-    ellipse(x+35,y+20,3,3);
+  fill(0,0,0);
+  ellipse(x+15,y+20,3,3);
+  ellipse(x+35,y+20,3,3);
   }
   
    void move() {
-    Random rng = new Random();
-      int incx = rng.nextInt()%10;
-      int incy= rng.nextInt()%10;
- if (x+incx>1000 || x+incx<0 || y+incy<0 || y+incy>800) {
+      if (x < 0) dx = -1*dx;
+      if (x + 50 > 1000) dx = -1*dx;
+      if (y < 0) dy *= -1;
+      if (y + 50 > 800) dy *= -1;
+      x += dx;
+      y += dy;
+     
+     /*Random rng = new Random();
+      int dx = rng.nextInt(10) - 5;
+      int dy = rng.nextInt(10) - 5;
+       if (x+incx>1000 || x+incx<0 || y+incy<0 || y+incy>800) {
       x-=incx;
-    y-=incy;}
-  else{
+      y-=incy;}
+      else{
       x+=incx;
       y+=incy;
-  }}
+      }*/
+   }
 }
 
 class Ball extends Thing implements Displayable, Moveable,Collideable {
