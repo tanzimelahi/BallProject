@@ -65,7 +65,7 @@ public class LivingRock extends Rock implements Moveable {
   ellipse(x+37,y+17,3,3);
   }
   }
-  
+   //fix so it doesn't get stuck at top.
    void move() {
       if (x < 0) dx = -1*dx;
       if (x + 50 > 1000) dx = -1*dx;
@@ -162,6 +162,6 @@ void draw() {
     thing.display();
   }
   for (Moveable thing : thingsToMove) {
-    //thing.move();
+    thing.move();
   }
 }
