@@ -10,7 +10,6 @@ interface Collideable{
 }
 abstract class Thing implements Displayable{
   float x, y;
-  
   Thing(float x, float y) {
     this.x = x;
     this.y = y;
@@ -50,20 +49,21 @@ public class LivingRock extends Rock implements Moveable {
   void display(){
     super.display();
     if (imag==0){
-    fill(255,255,255);
-    ellipse(x+20,y+18,10,6);
-    ellipse(x+40,y+18,10,6);
-    fill(0,0,0);
-    ellipse(x+20,y+18,3,3);
-    ellipse(x+40,y+18,3,3);
-  }
-  else 
+      fill(255,255,255);
+      ellipse(x+17,y+22,10,6);
+      ellipse(x+30,y+22,10,6);
+      fill(0,0,0);
+      ellipse(x+17,y+22,3,3);
+      ellipse(x+30,y+22,3,3);
+    }
+  else{ 
   fill(255,255,255);
-  ellipse(x+15,y+20,10,6);
-  ellipse(x+35,y+20,10,6);
+  ellipse(x+20,y+15,10,6);
+  ellipse(x+37,y+17,10,6);
   fill(0,0,0);
-  ellipse(x+15,y+20,3,3);
-  ellipse(x+35,y+20,3,3);
+  ellipse(x+20,y+15,3,3);
+  ellipse(x+37,y+17,3,3);
+  }
   }
   
    void move() {
@@ -85,7 +85,8 @@ public class LivingRock extends Rock implements Moveable {
       y+=incy;
       }*/
    }
-}
+ }
+
 
 class Ball extends Thing implements Displayable, Moveable,Collideable {
   float r, vx, vy, acc, maxHeight;
@@ -161,6 +162,6 @@ void draw() {
     thing.display();
   }
   for (Moveable thing : thingsToMove) {
-    thing.move();
+    //thing.move();
   }
 }
