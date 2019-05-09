@@ -87,33 +87,37 @@ public class LivingRock extends Rock implements Moveable {
    }
  }
 
-
-class Ball extends Thing implements Displayable, Moveable,Collideable {
-  float r, vx, vy, acc, maxHeight;
+abstract class Ball extends Thing implements Displayable, Moveable, Collideable {
+  float r, vx, vy, colour;
   
-  Ball(float x, float y, float r, float v, float theta, float acc) {
+  Ball(float x, float y, float r, float v, float theta, float colour) {
     super(x, y);
     this.r = r;
     vx = v * cos(theta);
     vy = v * sin(theta);
-    this.acc = acc;
-    maxHeight = height - y;
+    this.colour = colour;
   }
 
   void display() {
-    fill(0+random(165));
+    fill(0+random(colour));
     ellipse(x,y,1.5*r,1.5* r);
     
   }
-  boolean isTouching(Thing other){
-    if (dist(x,y,other.x,other.y)<=1.5*r){
-      return true;
-    }
-    else{
-      return false;
-    }
+  boolean isTouching(Thing other) {
+    return (dist(x,y,other.x,other.y) <= r);
   }
+  abstract void move();
+}
 
+class GravityBall extends Ball {
+  float acc, maxHeight;
+  
+  GravityBall(float x, float y, float r, float v, float theta, float colour, float acc) {
+    super(x, y, r, v, theta, colour);
+    this.acc = acc;
+    maxHeight = height - y;
+  }
+  
   void move() {
     x += vx;
     y += vy;
@@ -134,6 +138,7 @@ class Ball extends Thing implements Displayable, Moveable,Collideable {
     }
   } 
 }
+
 ArrayList<Displayable> thingsToDisplay;
 ArrayList<Moveable> thingsToMove;
 
@@ -143,7 +148,7 @@ void setup() {
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
   for (int i = 0; i < 10; i++) {
-    Ball b = new Ball(50+random(width-100),50+random(height)-100, 12.5, random(5, 8), random(-90,90), 0.99);
+    Ball b = new GravityBall(50+random(width-100),50+random(height)-100, 12.5, random(5, 8), random(-90,90), random(165), 0.99);
     thingsToDisplay.add(b);
     thingsToMove.add(b);
     Rock r = new Rock(50+random(width-100),50+random(height)-100);
