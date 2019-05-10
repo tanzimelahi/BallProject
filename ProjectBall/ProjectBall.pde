@@ -151,17 +151,10 @@ class SineBall extends Ball {
   }
    
   void move() {
-    //pushMatrix();
-    //translate(ox, oy);
-    //rotate(degrees(theta));
     if (theta % 180 == 0) vy = amp * sin((t / 25));
     else vx = amp * sin((t / 25));
     x += vx;
     y += vy;
-    //popMatrix();
-    // using the addition formulas
-    //x = ((x * cos(theta)) - (y * sin(theta)));
-    //y = ((x * sin(theta)) + (y * cos(theta)));
     if (x > width - r) {
       vx *= -1;
       x = width - r;
@@ -188,12 +181,11 @@ void setup() {
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
   for (int i = 0; i < 10; i++) {
-    // Ball b1 = new GravityBall(50+random(width-100),50+random(height)-100, 12.5, random(5, 8), random(-90,90), random(165), 0.99);
-    Ball b2 = new SineBall(50+random(width-100),50+random(height)-100, 12.5, random(5, 8), int(random(0, 4)) * 90, random(3,5), random(165));
-    // thingsToDisplay.add(b1);
-    thingsToDisplay.add(b2);
-    // thingsToMove.add(b1);
-    thingsToMove.add(b2);
+    Ball b;
+    if (i % 2 == 0) b = new GravityBall(50+random(width-100),50+random(height)-100, 12.5, random(5, 8), random(-90,90), random(165), 0.99);
+    else b = new SineBall(50+random(width-100),50+random(height)-100, 12.5, random(5, 8), int(random(0, 4)) * 90, random(3,5), random(165));
+    thingsToDisplay.add(b);
+    thingsToMove.add(b);
     Rock r = new Rock(50+random(width-100),50+random(height)-100);
     thingsToDisplay.add(r);
   }
