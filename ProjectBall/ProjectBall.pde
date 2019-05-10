@@ -88,18 +88,19 @@ public class LivingRock extends Rock implements Moveable {
  }
 
 abstract class Ball extends Thing implements Displayable, Moveable, Collideable {
-  float r, vx, vy, colour;
+  float r, vx, vy, theta, colour;
   
   Ball(float x, float y, float r, float v, float theta, float colour) {
     super(x, y);
     this.r = r;
+    this.theta = theta * (PI / 180);
     vx = v * cos(theta);
     vy = v * sin(theta);
     this.colour = colour;
   }
 
   void display() {
-    fill(0+random(colour));
+    fill(colour);
     ellipse(x,y,1.5*r,1.5* r);
     
   }
@@ -144,14 +145,12 @@ class SineBall extends Ball {
   SineBall(float x, float y, float r, float v, float theta, float amp, float colour) {
     super(x, y, r, v, theta, colour);
     this.amp = amp;
-    vx = -5;
-    t = 0;
+    t = 3;
   }
    
   void move() {
-    vy = amp * sin(t / 10);
-    x += vx;
-    y += vy;
+    x = ((x * cos(theta)) - (sin(x) * sin(theta)));
+    y = ((x * sin(theta)) + (sin(x) * cos(theta)));
     if (x > width - r) {
       vx *= -1;
       x = width - r;
@@ -165,7 +164,7 @@ class SineBall extends Ball {
       vy *= -1;
       y = r;
     }
-    t += 3;
+    t += 1;
   }
 }
 
@@ -179,7 +178,7 @@ void setup() {
   thingsToMove = new ArrayList<Moveable>();
   for (int i = 0; i < 10; i++) {
     // Ball b1 = new GravityBall(50+random(width-100),50+random(height)-100, 12.5, random(5, 8), random(-90,90), random(165), 0.99);
-    Ball b2 = new SineBall(50+random(width-100),50+random(height)-100, 12.5, random(5, 8), random(-90,90), random(3,15), random(165));
+    Ball b2 = new SineBall(50+random(width-100),50+random(height)-100, 12.5, random(5, 8), random(-5,5), random(3,5), random(165));
     // thingsToDisplay.add(b1);
     thingsToDisplay.add(b2);
     // thingsToMove.add(b1);
