@@ -139,6 +139,36 @@ class GravityBall extends Ball {
   } 
 }
 
+class SineBall extends Ball {
+  float amp, t;
+  SineBall(float x, float y, float r, float v, float theta, float amp, float colour) {
+    super(x, y, r, v, theta, colour);
+    this.amp = amp;
+    vx = -5;
+    t = 0;
+  }
+   
+  void move() {
+    vy = amp * sin(t / 10);
+    x += vx;
+    y += vy;
+    if (x > width - r) {
+      vx *= -1;
+      x = width - r;
+    } else if (x < r) {
+      vx *= -1;
+      x = r;
+    } else if (y > height - r) {
+      vy *= -1;
+      y = height - r;
+    } else if (y < r) {
+      vy *= -1;
+      y = r;
+    }
+    t += 3;
+  }
+}
+
 ArrayList<Displayable> thingsToDisplay;
 ArrayList<Moveable> thingsToMove;
 
@@ -148,9 +178,12 @@ void setup() {
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
   for (int i = 0; i < 10; i++) {
-    Ball b = new GravityBall(50+random(width-100),50+random(height)-100, 12.5, random(5, 8), random(-90,90), random(165), 0.99);
-    thingsToDisplay.add(b);
-    thingsToMove.add(b);
+    // Ball b1 = new GravityBall(50+random(width-100),50+random(height)-100, 12.5, random(5, 8), random(-90,90), random(165), 0.99);
+    Ball b2 = new SineBall(50+random(width-100),50+random(height)-100, 12.5, random(5, 8), random(-90,90), random(3,15), random(165));
+    // thingsToDisplay.add(b1);
+    thingsToDisplay.add(b2);
+    // thingsToMove.add(b1);
+    thingsToMove.add(b2);
     Rock r = new Rock(50+random(width-100),50+random(height)-100);
     thingsToDisplay.add(r);
   }
