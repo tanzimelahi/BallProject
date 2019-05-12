@@ -104,8 +104,12 @@ abstract class Ball extends Thing implements Displayable, Moveable, Collideable 
     ellipse(x,y,1.5*r,1.5* r);
     
   }
+  void changeDisplay(){
+    fill(165,0,0);
+    ellipse(x,y,1.5*r,1.5*r);
+  }
   boolean isTouching(Thing other) {
-    return (dist(x,y,other.x,other.y) <= r);
+    return (dist(x,y,other.x,other.y) <=1.5*r);
   }
   abstract void move();
 }
@@ -118,6 +122,32 @@ class GravityBall extends Ball {
     this.acc = acc;
     maxHeight = height - y;
   }
+    boolean isTouching(Thing other) {
+    return (dist(x,y,other.x,other.y) <=3*r);
+  }
+  void Display(){
+    fill(colour);
+     triangle(x,y,x+1.5*r,y,(x+x+2*r)/2,y+1.5*r*(float)Math.pow(3,1/2));
+     triangle(x,y,x-1.5*r,y,(x+x-2*r)/2,y+1.5*r*(float)Math.pow(3,1/2));
+     triangle(x,y,x+1.5*r,y,(x+x+2*r)/2,y-1.5*r*(float)Math.pow(3,1/2));
+     triangle(x,y,x-1.5*r,y,(x+x-2*r)/2,y-1.5*r*(float)Math.pow(3,1/2));
+     triangle(x,y,(x+x+1.5*r)/2,y-1.5*r*(float)Math.pow(3,1/2),(x+x-1.5*r)/2,y-1.5*r*(float)Math.pow(3,1/2));
+     triangle(x,y,(x+x+1.5*r)/2,y+1.5*r*(float)Math.pow(3,1/2),(x+x-1.5*r)/2,y+1.5*r*(float)Math.pow(3,1/2));
+  }
+   void display(){
+     fill(colour);
+     rect(x,y,1.5*r,1.5*r);
+   }
+    void changeDisplay(){
+     fill(165,0,0);
+     triangle(x,y,x+1.5*r,y,(x+x+2*r)/2,y+1.5*r*(float)Math.pow(3,1/2));
+     triangle(x,y,x-1.5*r,y,(x+x-2*r)/2,y+1.5*r*(float)Math.pow(3,1/2));
+     triangle(x,y,x+1.5*r,y,(x+x+2*r)/2,y-1.5*r*(float)Math.pow(3,1/2));
+     triangle(x,y,x-1.5*r,y,(x+x-2*r)/2,y-1.5*r*(float)Math.pow(3,1/2));
+     triangle(x,y,(x+x+1.5*r)/2,y-1.5*r*(float)Math.pow(3,1/2),(x+x-1.5*r)/2,y-1.5*r*(float)Math.pow(3,1/2));
+     triangle(x,y,(x+x+1.5*r)/2,y+1.5*r*(float)Math.pow(3,1/2),(x+x-1.5*r)/2,y+1.5*r*(float)Math.pow(3,1/2));
+  }
+  
   
   void move() {
     x += vx;
@@ -149,7 +179,15 @@ class SineBall extends Ball {
     else vy = v;
     t = 0;
   }
-   
+   void display(){
+     fill(50,165,0);
+     ellipse(this.x,this.y,1.5*r,1.5*r);
+     fill(random(165),random(165),random(165));
+     ellipse(this.x,this.y,1.5*r/2,1.5*r/2);
+     triangle(this.x,this.y,this.x+1.5*r,this.y+1.5*r/4,this.x+2*r,this.y);
+     triangle(this.x,this.y,this.x-1.5*r,this.y+1.5*r/4,this.x-2*r,this.y);
+    
+   }
   void move() {
     if (theta % 180 == 0) vy = amp * sin((t / 25));
     else vx = amp * sin((t / 25));
@@ -174,25 +212,34 @@ class SineBall extends Ball {
 
 ArrayList<Displayable> thingsToDisplay;
 ArrayList<Moveable> thingsToMove;
+ArrayList<Ball>thingsThatCollide;
+ArrayList<Thing>everything;
 
 void setup() {
   size(1000, 800);
-
+  thingsThatCollide=new ArrayList<Ball>();
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
+  everything=new ArrayList<Thing>();
   for (int i = 0; i < 10; i++) {
     Ball b;
-    if (i % 2 == 0) b = new GravityBall(50+random(width-100),50+random(height)-100, 12.5, random(5, 8), random(-90,90), random(165), 0.99);
-    else b = new SineBall(50+random(width-100),50+random(height)-100, 12.5, random(5, 8), int(random(0, 4)) * 90, random(3,5), random(165));
+    if (i % 2 == 0) b = new GravityBall(50+random(width-100),50+random(height)-100, 12.5, random(5, 8), random(-90,90), random(165), 0.99);//second last color
+    else b = new SineBall(50+random(width-100),50+random(height)-100, 12.5, random(5, 8), int(random(0, 4)) * 90, random(3,5), random(165));// last color
     thingsToDisplay.add(b);
     thingsToMove.add(b);
+    thingsThatCollide.add(b);
+  //  everything.add(b);
     Rock r = new Rock(50+random(width-100),50+random(height)-100);
     thingsToDisplay.add(r);
+    everything.add(r);
+    
   }
 
   LivingRock m = new LivingRock(50+random(width-100),50+random(height)-100);
   thingsToDisplay.add(m);
   thingsToMove.add(m);
+  everything.add(m);
+  
 }
 
 void draw() {
@@ -203,5 +250,15 @@ void draw() {
   }
   for (Moveable thing : thingsToMove) {
     thing.move();
+  }
+  for(Thing thing: everything){
+    for(Ball stuff : thingsThatCollide){
+      if(stuff.isTouching(thing)){
+        stuff.changeDisplay();
+      }
+      else{
+       // stuff.display();
+      }
+    }
   }
 }
