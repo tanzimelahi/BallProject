@@ -8,7 +8,7 @@ Sam and Angélique worked on the living rock features while Tanzim and Vincent w
 - Tanzim and Vincent worked together on coding isTouchable() and the Collideable interface.
 
 ## 05-08-19
-- Vincent was absent for a choral trip and was not able to do work. Tanzim...
+- Vincent was absent for a choral trip and was not able to do work. Tanzim tried working on some weird isTouching function for ball,failed miserably.
 
 ## 05-09-19
 - Tanzim was out sick, and was not able to do work. Vincent wrote a weird sinusoidal motion type of ball.
