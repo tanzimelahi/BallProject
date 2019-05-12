@@ -136,7 +136,12 @@ class GravityBall extends Ball {
   }
    void display(){
      fill(colour);
-     rect(x,y,1.5*r,1.5*r);
+     rect(x,y,3*r,1.2*r);
+     rect(x+0.5,y,2.8*r,-3*r);
+     rect(x+1*r,y-3*r,1*r,-1*r);
+     triangle(x,y,x+1.5*r,y,(x+x+1.5*r)/2,y+3*r);
+     triangle(x+1.5*r,y,x+3*r,y,(x+1.5*r+x+3*r)/2,y+3*r);
+     
    }
     void changeDisplay(){
      fill(165,0,0);
@@ -181,13 +186,16 @@ class SineBall extends Ball {
   }
    void display(){
      fill(50,165,0);
-     ellipse(this.x,this.y,1.5*r,1.5*r);
+     ellipse(this.x,this.y,3*r,3*r);
      fill(random(165),random(165),random(165));
-     ellipse(this.x,this.y,1.5*r/2,1.5*r/2);
-     triangle(this.x,this.y,this.x+1.5*r,this.y+1.5*r/4,this.x+2*r,this.y);
-     triangle(this.x,this.y,this.x-1.5*r,this.y+1.5*r/4,this.x-2*r,this.y);
+     ellipse(this.x,this.y,3*r/2,3*r/2);
+     triangle(this.x,this.y,this.x+3*r,this.y+3*r/4,this.x+4*r,this.y);
+     triangle(this.x,this.y,this.x-3*r,this.y+3*r/4,this.x-4*r,this.y);
     
    }
+     boolean isTouching(Thing other) {
+    return (dist(x,y,other.x,other.y) <=3*r);
+  }
   void move() {
     if (theta % 180 == 0) vy = amp * sin((t / 25));
     else vx = amp * sin((t / 25));
@@ -223,7 +231,7 @@ void setup() {
   everything=new ArrayList<Thing>();
   for (int i = 0; i < 10; i++) {
     Ball b;
-    if (i % 2 == 0) b = new GravityBall(50+random(width-100),50+random(height)-100, 12.5, random(5, 8), random(-90,90), random(165), 0.99);//second last color
+    if (i % 2 == 0) b = new GravityBall(50+random(width-100),50+random(height)-100, 12.5, random(5, 8), random(-90,90),0, 0.99);//second last color
     else b = new SineBall(50+random(width-100),50+random(height)-100, 12.5, random(5, 8), int(random(0, 4)) * 90, random(3,5), random(165));// last color
     thingsToDisplay.add(b);
     thingsToMove.add(b);
