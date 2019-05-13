@@ -16,3 +16,6 @@ Sam and Angélique worked on the living rock features while Tanzim and Vincent w
 ## 05-09-19
 - Tanzim was out sick, and was not able to do work. Vincent wrote a weird sinusoidal motion type of ball.
 -Sam typed while Angélique gave instructions on how to adjust the eyes and fix the parameters for the motions of the objects.
+
+## 05-13-19
+-Sam worked on having the rock implement collideable and figuring out a movement pattern for it to follow when it collides with another object.
