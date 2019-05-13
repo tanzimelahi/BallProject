@@ -32,7 +32,6 @@ class Rock extends Thing implements Displayable, Collideable{
     else img = loadImage("Rock.jpg");
     dx = r.nextInt(15) - 7;
     dy = r.nextInt(15) - 7;
-    txt = 0;
   }
 
   void display() { 
@@ -47,12 +46,23 @@ class Rock extends Thing implements Displayable, Collideable{
             other.y >= this.x && other.y <= this.x + 50);
   }
   
+  //randomly moves the rock to get it out of the way of whatever it's touching
   void changeDisplay(){
-    if (x >= 500) x -= 5;
-    else x += 5;
-    if (y >= 400) y -= 5;
-    else y += 5;
+    Random rand = new Random();
+    if (x >= 990) x -= 5;
+    if (x <= 10) x += 5;
+    else{
+      if (rand.nextInt(2) == 1) x += 5;
+      else x -= 5;
+    }
+    if (y >= 790) x -= 5;
+    if (y <= 10) y +=  5;
+    else{
+      if (rand.nextInt(2) == 1) y += 5;
+      else y -= 5;
+    }
   }
+
 }
 
 public class LivingRock extends Rock implements Moveable, Collideable{
