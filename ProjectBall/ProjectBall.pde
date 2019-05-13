@@ -7,6 +7,7 @@ interface Moveable {
 }
 interface Collideable{
   boolean isTouching(Thing other);
+  void changeDisplay();
 }
 abstract class Thing implements Displayable{
   float x, y;
@@ -18,7 +19,7 @@ abstract class Thing implements Displayable{
   abstract void move();
 }
 
-class Rock extends Thing implements Displayable{
+class Rock extends Thing implements Displayable, Collideable{
   Random r;
   PImage img;
   int imag;
@@ -31,6 +32,7 @@ class Rock extends Thing implements Displayable{
     else img = loadImage("Rock.jpg");
     dx = r.nextInt(15) - 7;
     dy = r.nextInt(15) - 7;
+    txt = 0;
   }
 
   void display() { 
@@ -39,13 +41,26 @@ class Rock extends Thing implements Displayable{
   }
   
   void move(){}
+  
+   boolean isTouching(Thing other) {
+    return (other.x >= this.x && other.x <= this.x + 50 &&
+            other.y >= this.x && other.y <= this.x + 50);
+  }
+  
+  void changeDisplay(){
+    if (x >= 500) x -= 5;
+    else x += 5;
+    if (y >= 400) y -= 5;
+    else y += 5;
+  }
 }
 
-public class LivingRock extends Rock implements Moveable {
+public class LivingRock extends Rock implements Moveable, Collideable{
   LivingRock(float x, float y) {
     super(x,y);
     
   }
+  
   void display(){
     super.display();
     if (imag==0){
@@ -220,12 +235,12 @@ class SineBall extends Ball {
 
 ArrayList<Displayable> thingsToDisplay;
 ArrayList<Moveable> thingsToMove;
-ArrayList<Ball>thingsThatCollide;
+ArrayList<Collideable>thingsThatCollide;
 ArrayList<Thing>everything;
 
 void setup() {
   size(1000, 800);
-  thingsThatCollide=new ArrayList<Ball>();
+  thingsThatCollide=new ArrayList<Collideable>();
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
   everything=new ArrayList<Thing>();
@@ -239,6 +254,7 @@ void setup() {
   //  everything.add(b);
     Rock r = new Rock(50+random(width-100),50+random(height)-100);
     thingsToDisplay.add(r);
+    thingsThatCollide.add(r);
     everything.add(r);
     
   }
@@ -246,6 +262,7 @@ void setup() {
   LivingRock m = new LivingRock(50+random(width-100),50+random(height)-100);
   thingsToDisplay.add(m);
   thingsToMove.add(m);
+  thingsThatCollide.add(m);
   everything.add(m);
   
 }
@@ -260,12 +277,11 @@ void draw() {
     thing.move();
   }
   for(Thing thing: everything){
-    for(Ball stuff : thingsThatCollide){
-      if(stuff.isTouching(thing)){
-        stuff.changeDisplay();
+    for(Collideable collide : thingsThatCollide){
+      if(collide.isTouching(thing)){
+        collide.changeDisplay();
       }
-      else{
-       // stuff.display();
+      else{ // stuff.display();
       }
     }
   }
